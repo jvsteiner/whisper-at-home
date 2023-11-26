@@ -1,0 +1,4 @@
+*.wav
+transcript.txt
+.venv
+interview.mp3
