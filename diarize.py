@@ -2,12 +2,9 @@
 
 import whisper
 import datetime
-
 import subprocess
-
 import torch
 import pyannote.audio
-
 import platform
 import os
 import argparse
@@ -105,8 +102,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Diarization program")
 
     # Add command line arguments
-    parser.add_argument("--input_file", required=True, help="Path to the input file")
-    parser.add_argument("--output_file", required=True, help="Path to the output file")
+    parser.add_argument(
+        "-i", "--input_file", required=True, help="Path to the input file"
+    )
+    parser.add_argument(
+        "-o", "--output_file", required=True, help="Path to the output file"
+    )
 
     # Parse the command line arguments
     args = parser.parse_args()
