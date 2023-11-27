@@ -1,13 +1,19 @@
 #!/usr/bin/env python
-
-import whisper
+import os
+import platform
+import argparse
 import datetime
 import subprocess
+import numpy as np
 import torch
+import whisper
 import pyannote.audio
-import platform
-import os
-import argparse
+from pyannote.audio import Audio
+from pyannote.core import Segment
+from sklearn.cluster import AgglomerativeClustering
+from pyannote.audio.pipelines.speaker_verification import PretrainedSpeakerEmbedding
+import wave
+import contextlib
 
 TORCH_DEVICE = "cuda"
 
@@ -17,20 +23,9 @@ if platform.system() == "Darwin":
     print("Using MPS")
     print(os.environ["PYTORCH_ENABLE_MPS_FALLBACK"])
 
-from pyannote.audio.pipelines.speaker_verification import PretrainedSpeakerEmbedding
-
 embedding_model = PretrainedSpeakerEmbedding(
     "speechbrain/spkrec-ecapa-voxceleb", device=torch.device(TORCH_DEVICE)
 )
-
-from pyannote.audio import Audio
-from pyannote.core import Segment
-
-import wave
-import contextlib
-
-from sklearn.cluster import AgglomerativeClustering
-import numpy as np
 
 
 def diarize(
